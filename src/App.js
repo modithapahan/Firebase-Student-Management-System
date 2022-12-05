@@ -1,10 +1,18 @@
+import { BrowserRouter as Router, Route} from 'react-router-dom'; 
 import './App.css';
+import AddStudentDetails from './components/AddStudentDetails';
+import Home from './components/Home';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello World welcome to my student management syatem</h1>
-    </div>
+    <Router>
+      <NavBar />
+      <div className="App">
+        <Route path="/" exact component={Home} />
+        <Route path="/add" component={AddStudentDetails}/>
+      </div>
+    </Router>
   );
 }
 
