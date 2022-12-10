@@ -31,7 +31,7 @@ const Home = () => {
         <tbody>
           {users.map((user, index) => {
             return (
-              <tr>
+              <tr key={user}>
                 <td scope="row">{index + 1}</td>
                 <td>{user.name}</td>
                 <td>{user.age}</td>
