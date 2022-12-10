@@ -21,7 +21,6 @@ const AddStudentDetails = () => {
   }
 
   const onsubmit = async (e) => {
-    e.preventDefault()
     try {
       if (!name || !age || !gender) {
         alert('Please Enter all Details');
@@ -30,7 +29,6 @@ const AddStudentDetails = () => {
           name: name,
           age: age,
           gender: gender,
-          completed: false,
           created: Timestamp.now(),
         });
       }
