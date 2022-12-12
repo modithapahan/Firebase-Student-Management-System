@@ -2,41 +2,30 @@ import React, { useState } from 'react'
 import { db } from '../firebase-config'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
 
-  const initialState = {
-     name: "",
-     age: "",
-     gender: "",
-  };
- 
-
 const AddStudentDetails = () => {
 
-  const [state, setState] = useState(initialState);
-
-  const { name, age, gender } = state;
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setState({ ...state, [name]: value });
-  }
+  const [name, setName] = useState("");
+  const [age, setAge] = useState();
+  const [gender, setGender] = useState("");
 
   const onsubmit = async (e) => {
-    try {
-      if (!name || !age || !gender) {
-        alert('Please Enter all Details');
-      } else {
-        await addDoc(collection(db, "students"), {
-          name: name,
-          age: age,
-          gender: gender,
-          created: Timestamp.now(),
-        });
-      }
-     
-    } catch (error) {
-      alert(error)
-    }
+    e.preventDefault();
 
+    if (name || age || gender !== "") {
+      await addDoc(collection(db, "students"), {
+        name,
+        age,
+        gender,
+        completed: false,
+        created: Timestamp.now(),
+      });
+      setName("")
+      setGender("")
+      setAge("")
+    }
+    else {
+      alert('Please fill the details');
+    }
   }
 
   return (
@@ -51,7 +40,7 @@ const AddStudentDetails = () => {
                       name="name"
                       placeholder='Enter Name'
                       value={name}
-                      onChange={handleInputChange} />
+                      onChange={(e) => setName(e.target.value)} />
             </div>
         
             <div className="mb-3">
@@ -62,7 +51,7 @@ const AddStudentDetails = () => {
                       placeholder='Enter Age'
                       name='age'
                       value={age}
-                      onChange={handleInputChange} />
+                      onChange={(e) => setAge(e.target.value)} />
             </div>
         
             <div className="mb-3">
@@ -74,7 +63,7 @@ const AddStudentDetails = () => {
                       placeholder='Enter Gender'
                       name='gender'
                       value={gender}
-                      onChange={handleInputChange} />
+                      onChange={(e) => setGender(e.target.value)} />
             </div>
         
             <button
