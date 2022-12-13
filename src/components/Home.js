@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase-config'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Home = () => {
 
   const [users, setUsers] = useState([]);
   const userCollectionRef = collection(db, "students");
+  const history = useHistory();
 
   useEffect(() => {
     const getUsers = async () => {
@@ -15,6 +16,10 @@ const Home = () => {
     };
     getUsers();
   }, []);
+
+  const handleDelete = async (id) => {
+    await deleteDoc(doc(db, "students", id));
+  }
 
   return (
     <div className="container" style={{marginTop: "30px"}}>
@@ -45,7 +50,9 @@ const Home = () => {
                   <button className="btn btn-outline-primary" style={{ margin: "2px" }}>Update</button>
                 </Link>
               
-                <button className="btn btn-outline-danger"  style={{margin: "5px", height: "37px"}}>Delete</button>
+                <button className="btn btn-outline-danger"
+                  style={{ margin: "5px", height: "37px" }}
+                  onClick={() => handleDelete(user.id)}>Delete</button>
               </tr>
             );
           })}

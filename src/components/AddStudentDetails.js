@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { db } from '../firebase-config'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
+import { useHistory } from 'react-router-dom'
 
 const AddStudentDetails = () => {
+
+  const history = useHistory();
 
   const [name, setName] = useState("");
   const [age, setAge] = useState();
@@ -22,6 +25,7 @@ const AddStudentDetails = () => {
       setName("")
       setGender("")
       setAge("")
+      history.push('/')
     }
     else {
       alert('Please fill the details');
