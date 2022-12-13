@@ -7,7 +7,6 @@ const Home = () => {
 
   const [users, setUsers] = useState([]);
   const userCollectionRef = collection(db, "students");
-  const history = useHistory();
 
   useEffect(() => {
     const getUsers = async () => {
