@@ -20,9 +20,19 @@ const Home = () => {
     await deleteDoc(doc(db, "students", id));
   }
 
+  const [search, setSearch] = useState('');
+
   return (
-    <div className="container" style={{marginTop: "30px"}}>
-      <table className="table" style={{ width: "60%", margin: "auto" }}>
+    <div className="container" style={{ marginTop: "30px" }}>
+      <input
+        type="text"
+        className="form-control"
+        id="exampleInputAge"
+        placeholder="Enter the name to search..."
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <table className="table" style={{ width: "60%", margin: "8px auto auto auto" }}>
         <thead>
           <tr>
             <th scope="col">No</th>
@@ -33,25 +43,28 @@ const Home = () => {
         </thead>
 
         <tbody>
-          {users.map((user, index) => {
+          {users.filter((detail) => {
+            return search.toLowerCase() == '' ? detail : detail.name.toLowerCase().includes(search)
+          }).map((user, index) => {
             return (
-              <tr key={user}>
+              <tr key={index}>
                 <td scope="row">{index + 1}</td>
                 <td>{user.name}</td>
                 <td>{user.age}</td>
                 <td>{user.gender}</td>
-                
+
                 <Link to={`/view/${user.id}`} style={{ margin: "0px" }}>
                   <button className="btn btn-outline-warning">View</button>
                 </Link>
-                
+
                 <Link to={`/update/${user.id}`} style={{ margin: "0px" }}>
-                  <button className="btn btn-outline-primary" style={{ margin: "2px" }}>Update</button>
+                  <button className="btn btn-outline-primary"style={{ margin: "2px" }}>Update</button>
                 </Link>
-              
-                <button className="btn btn-outline-danger"
-                  style={{ margin: "5px", height: "37px" }}
-                  onClick={() => handleDelete(user.id)}>Delete</button>
+
+                <button
+                  className="btn btn-outline-danger" style={{ margin: "5px", height: "37px" }}
+                  onClick={() => handleDelete(user.id)}>Delete
+                </button>
               </tr>
             );
           })}
